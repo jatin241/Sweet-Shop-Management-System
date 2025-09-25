@@ -104,6 +104,28 @@ async function purchaseSweets(req,res) {
     }
 }
 
+async function restockSweets(req,res) {
+    const id = req.params.id;
+    let { quantity } = req.body; 
+    quantity = parseInt(quantity, 10);
+    if (!quantity || quantity <= 0) {
+        return res.status(400).json({ msg: 'Invalid restock quantity' });
+    }
+    try {
+        const sweet = await Sweet.findById(id);
+        if (!sweet) {
+            return res.status(404).json({ msg: 'Sweet not found' });
+        }
+        sweet.quantity += quantity;
+        await sweet.save();
+        res.status(200).json({ msg: 'Restock successful', sweet });
+    } catch (err) {
+        res.status(400).json({ msg: 'Error processing restock', error: err.message });
+    }
+}
+
+
+
 
 
 
@@ -113,6 +135,7 @@ module.exports={
     searchSweets,
     updateSweets,
     deleteSweets,
-    purchaseSweets
+    purchaseSweets,
+    restockSweets
    
 }
