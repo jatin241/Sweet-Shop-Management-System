@@ -23,8 +23,33 @@ async function postSweets(req, res) {
     }
 }
 
+async function searchSweets(req,res) {
+    const { name, category, minPrice, maxPrice } = req.body;
+    const query = {};
+    if (name) {
+        query.name = { $regex: name, $options: 'i' };
+    }
+    if (category) {
+        query.category = { $regex: category, $options: 'i' };
+    }
+    if (minPrice || maxPrice) {
+        query.price = {};
+        if (minPrice) query.price.$gte = parseFloat(minPrice);
+        if (maxPrice) query.price.$lte = parseFloat(maxPrice);
+    }
+    try {
+        const sweets = await Sweet.find(query);
+        res.status(200).json({ sweets });
+    } catch (err) {
+        res.status(400).json({ msg: 'Error searching sweets', error: err.message });
+    }
+}
+
+
+
 module.exports={
     getSweets,
     postSweets,
+    searchSweets
    
 }
