@@ -1,3 +1,122 @@
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 #0004, 0 0 0 4px #ffe08255;
+  backdrop-filter: blur(16px) saturate(1.2);
+  border-radius: 1.7rem;
+  border: 1.5px solid #ffe08288;
+}
+.shadow-candy {
+  box-shadow: 0 8px 32px 0 #ffe08255, 0 2px 16px #0008;
+}
+.bg-gradient-candy {
+  background: linear-gradient(90deg, #ffe082 20%, #ffb347 80%);
+}
+.text-muted-foreground {
+  color: #7c5a1a;
+}
+.sweet-hero-bg {
+  width: 100vw;
+  min-height: 380px;
+  background: linear-gradient(120deg, #232a36 60%, #181c24 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+.sweet-hero-img-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 2.5rem;
+  filter: blur(6px) brightness(0.7) grayscale(0.1);
+  opacity: 0.22;
+  z-index: 1;
+  pointer-events: none;
+  background: #232a36;
+}
+.sweet-hero-info {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(120deg, #fffbe6 80%, #ffe082 100%);
+  border-radius: 1.7rem;
+  box-shadow: 0 12px 48px 0 #0008, 0 0 0 4px #ffe08288;
+  padding: 2.8rem 3.2rem 2.8rem 3.2rem;
+  max-width: 520px;
+  font-family: 'EB Garamond', 'Georgia', serif;
+  color: #5b3a00;
+  border: 2.5px solid #ffe082;
+  z-index: 2;
+  opacity: 0.98;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 16px #ffe08255);
+}
+.sweet-hero-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #bfa100;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  font-family: 'EB Garamond', 'Georgia', serif;
+}
+.sweet-hero-desc {
+  font-size: 1.18rem;
+  color: #6b4a0b;
+  margin-bottom: 1.2rem;
+  font-family: 'EB Garamond', 'Georgia', serif;
+  background: rgba(255, 248, 220, 0.7);
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 2px 8px #ffe08244;
+}
+.sweet-hero-facts {
+  font-size: 1rem;
+  color: #7c5a1a;
+  font-family: 'EB Garamond', 'Georgia', serif;
+}
+.navbar-dark {
+  background: linear-gradient(90deg, #181c24 60%, #232a36 100%);
+  border-bottom: 4px solid #ffe082;
+  box-shadow: 0 2px 16px #0008;
+}
+.navbar-logo-dark {
+  background: linear-gradient(135deg, #ffe082 60%, #fffbe6 100%);
+  border: 2px solid #ffe082;
+  color: #bfa100;
+}
+.navbar-title-dark {
+  color: #ffe082;
+  text-shadow: 0 2px 8px #bfa10044;
+}
+.navbar-link-dark {
+  color: #ffe082;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.navbar-link-dark:hover {
+  color: #fffbe6;
+}
+.navbar-cart-dark {
+  background: linear-gradient(135deg, #ffe082 60%, #fffbe6 100%);
+  border: 2px solid #ffe082;
+  color: #bfa100;
+}
+.navbar-avatar-dark {
+  background: #ffe082;
+  color: #bfa100;
+  border: 2px solid #ffe082;
+}
 @import "tailwindcss";
 
 html, body, #root {

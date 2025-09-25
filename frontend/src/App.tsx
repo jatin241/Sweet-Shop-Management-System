@@ -146,24 +146,33 @@ function HomeHero() {
     ],
   };
   return (
-    <div className="w-full flex flex-col items-center pt-10 pb-8">
+    <div className="w-full flex flex-col items-center pt-10 pb-8 relative" style={{ minHeight: 420 }}>
+      {/* Sweet hero background section */}
+      <div className="sweet-hero-bg">
+        <img src={sweet.img} alt={sweet.name} className="sweet-hero-img-bg" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="sweet-hero-info glass-morphism shadow-candy max-w-2xl w-full flex flex-col items-center justify-center"
+        >
+          <div className="text-6xl mb-2">🍮</div>
+          <h2 className="text-3xl font-bold bg-gradient-candy bg-clip-text text-transparent mb-2" style={{ fontFamily: 'Fredoka One' }}>{sweet.name}</h2>
+          <div className="sweet-hero-desc text-lg text-muted-foreground max-w-md mx-auto mb-2">
+            <span style={{ fontFamily: 'EB Garamond, Georgia, serif', fontStyle: 'italic', fontWeight: 500 }}>
+              {`“${sweet.desc}”`}
+            </span>
+          </div>
+          <ul className="sweet-hero-facts list-disc pl-5 mb-2">
+            {sweet.facts.map(f => <li key={f}>{f}</li>)}
+          </ul>
+        </motion.div>
+      </div>
       <motion.div
-        className="flex flex-col items-center w-full"
+        className="flex flex-col items-center w-full z-10"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, type: 'spring' }}
       >
-        {/* Modern sweet pattern section */}
-        <section className="sweet-pattern-section mt-2 mb-10">
-          <img src={sweet.img} alt={sweet.name} className="sweet-pattern-img" />
-          <div className="sweet-pattern-info">
-            <div className="sweet-pattern-title">{sweet.name}</div>
-            <div className="sweet-pattern-desc">{sweet.desc}</div>
-            <ul className="sweet-pattern-facts list-disc pl-5">
-              {sweet.facts.map(f => <li key={f}>{f}</li>)}
-            </ul>
-          </div>
-        </section>
         <h1 className="mt-2 text-5xl font-extrabold text-yellow-200 tracking-tight text-center" style={{ fontFamily: 'Fredoka One' }}>
           SoSweet
         </h1>
@@ -206,32 +215,32 @@ function Navbar() {
   const { user, logout, token } = useAuth();
   return (
     <motion.nav
-      className="flex items-center justify-between px-8 py-4 bg-white/70 backdrop-blur-md rounded-b-3xl shadow-lg border-b-4 border-pink-200"
+      className="flex items-center justify-between px-8 py-4 navbar-dark rounded-b-3xl"
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, type: 'spring' }}
     >
       <div className="flex items-center gap-3">
         {/* Candy logo */}
-        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-pink-200 via-pink-300 to-pink-400 shadow-lg border-2 border-pink-300">
+        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full navbar-logo-dark shadow-lg">
           <span className="text-3xl">🍬</span>
         </span>
-        <span className="text-3xl font-extrabold tracking-wider text-pink-400 drop-shadow" style={{ fontFamily: 'Fredoka One' }}>SoSweet</span>
+        <span className="text-3xl font-extrabold tracking-wider navbar-title-dark" style={{ fontFamily: 'Fredoka One' }}>SoSweet</span>
       </div>
       <div className="flex gap-8">
         {navLinks.map(link => (
-          <Link key={link.name} to={link.path} className="text-lg font-semibold text-pink-500 hover:text-pink-400 transition-colors duration-200 px-4 py-2 rounded-full hover:bg-pink-100/60">
+          <Link key={link.name} to={link.path} className="text-lg navbar-link-dark px-4 py-2 rounded-full">
             {link.name}
           </Link>
         ))}
       </div>
       <div className="flex items-center gap-4">
         <Link to="/cart" className="relative">
-          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-pink-200 via-pink-300 to-pink-400 shadow border-2 border-pink-200">
+          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full navbar-cart-dark shadow">
             <span className="text-2xl">🍩</span>
           </span>
           {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-pink-400 text-white text-xs font-bold rounded-full px-2 py-0.5 animate-bounce">
+            <span className="absolute -top-2 -right-2 bg-yellow-400 text-gray-900 text-xs font-bold rounded-full px-2 py-0.5 animate-bounce border-2 border-yellow-200">
               {cartCount}
             </span>
           )}
@@ -241,14 +250,14 @@ function Navbar() {
             {/* Avatar button for logout */}
             <button
               onClick={() => { logout(); window.location.href = "/login"; }}
-              className="ml-2 flex items-center gap-2 px-3 py-1 bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white rounded-full font-bold shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
+              className="ml-2 flex items-center gap-2 px-3 py-1 navbar-avatar-dark rounded-full font-bold shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
             >
-              <span className="inline-block w-8 h-8 rounded-full bg-pink-200 flex items-center justify-center text-xl mr-1 border-2 border-pink-300">🍭</span>
+              <span className="inline-block w-8 h-8 rounded-full navbar-avatar-dark flex items-center justify-center text-xl mr-1">🍭</span>
               Logout
             </button>
           </>
         ) : (
-          <Link to="/login" className="text-pink-400 hover:text-pink-500 font-semibold text-sm px-4 py-2 rounded-full bg-pink-100/60 hover:bg-pink-200 transition-all">Login</Link>
+          <Link to="/login" className="navbar-link-dark font-semibold text-sm px-4 py-2 rounded-full bg-yellow-100/60 hover:bg-yellow-200 transition-all">Login</Link>
         )}
       </div>
     </motion.nav>
