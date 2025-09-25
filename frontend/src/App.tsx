@@ -18,7 +18,15 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="min-h-screen">
+          <div className="min-h-screen relative">
+            {/* Large faint sweet watermark background */}
+            <svg className="sweet-watermark-bg" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="450" cy="450" r="420" fill="#fff" fillOpacity="0.08" />
+              <text x="50%" y="38%" textAnchor="middle" fontSize="180" fill="#ffb6e6" opacity="0.7" fontFamily="Poppins, Inter, Quicksand">🍩</text>
+              <text x="30%" y="65%" textAnchor="middle" fontSize="120" fill="#b6ffe0" opacity="0.7">🍬</text>
+              <text x="70%" y="70%" textAnchor="middle" fontSize="140" fill="#e0b6ff" opacity="0.7">🧁</text>
+              <text x="60%" y="50%" textAnchor="middle" fontSize="100" fill="#b6e6ff" opacity="0.7">🍭</text>
+            </svg>
             {/* Floating candy SVGs for immersive background */}
             <svg className="floating-candy candy1" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#ffb6e6" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🍬</text></svg>
             <svg className="floating-candy candy2" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#b6ffe0" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🍭</text></svg>
@@ -134,46 +142,15 @@ function SweetCard({ sweet }: { sweet: Sweet }) {
 }
 
 function HomeHero() {
-  // Example sweet info (Rasmalai)
-  const sweet = {
-    name: "Rasmalai",
-    img: "/Rasmalai.jpg",
-    desc: "Rasmalai is a soft, spongy dessert made from chenna (Indian cottage cheese) soaked in sweet, thickened milk flavored with cardamom and saffron. A Bengali classic, it's creamy, aromatic, and melts in your mouth.",
-    facts: [
-      "Origin: Bengal, India",
-      "Main ingredients: Chenna, milk, sugar, cardamom, saffron",
-      "Served chilled for a refreshing treat",
-    ],
-  };
   return (
-    <div className="w-full flex flex-col items-center pt-10 pb-8 relative" style={{ minHeight: 420 }}>
-      {/* Sweet hero background section */}
-      <div className="sweet-hero-bg">
-        <img src={sweet.img} alt={sweet.name} className="sweet-hero-img-bg" />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="sweet-hero-info glass-morphism shadow-candy max-w-2xl w-full flex flex-col items-center justify-center"
-        >
-          <div className="text-6xl mb-2">🍮</div>
-          <h2 className="text-3xl font-bold bg-gradient-candy bg-clip-text text-transparent mb-2" style={{ fontFamily: 'Fredoka One' }}>{sweet.name}</h2>
-          <div className="sweet-hero-desc text-lg text-muted-foreground max-w-md mx-auto mb-2">
-            <span style={{ fontFamily: 'EB Garamond, Georgia, serif', fontStyle: 'italic', fontWeight: 500 }}>
-              {`“${sweet.desc}”`}
-            </span>
-          </div>
-          <ul className="sweet-hero-facts list-disc pl-5 mb-2">
-            {sweet.facts.map(f => <li key={f}>{f}</li>)}
-          </ul>
-        </motion.div>
-      </div>
+    <div className="w-full flex flex-col items-center pt-24 pb-16 relative" style={{ minHeight: 420 }}>
       <motion.div
         className="flex flex-col items-center w-full z-10"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, type: 'spring' }}
       >
-        <h1 className="mt-2 text-5xl font-extrabold text-yellow-200 tracking-tight text-center" style={{ fontFamily: 'Fredoka One' }}>
+        <h1 className="mt-2 text-5xl font-extrabold bg-gradient-candy bg-clip-text text-transparent tracking-tight text-center" style={{ fontFamily: 'Fredoka One' }}>
           SoSweet
         </h1>
         <p className="mt-4 text-lg text-gray-200 text-center max-w-xl">
@@ -184,7 +161,7 @@ function HomeHero() {
           <InfoCard icon="🍰" title="Unique Recipe" desc="Savouring 100% baked items from our oven to your plate" />
           <InfoCard icon="🥐" title="100%baked" desc="Enjoy peace of mind with our secure packing" />
         </div>
-        <a href="/dashboard" className="mt-8 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-full shadow-lg text-lg border-2 border-yellow-300 hover:bg-yellow-500 transition-colors">Go to Dashboard</a>
+        <a href="/dashboard" className="mt-8 px-6 py-3 bg-gradient-candy text-black font-bold rounded-full shadow-lg text-lg border-2 border-yellow-300 hover:bg-yellow-500 transition-colors">Go to Dashboard</a>
       </motion.div>
     </div>
   );
@@ -206,58 +183,60 @@ function InfoCard({ icon, title, desc }: { icon: string, title: string, desc: st
 
 const navLinks = [
   { name: 'Home', path: '/' },
-  { name: 'Dashboard', path: '/dashboard' },
+  { name: 'Sweets', path: '/dashboard' },
+  { name: 'Cart', path: '/cart' },
+  { name: 'Profile', path: '/profile' },
 ];
 
 function Navbar() {
   const { cart } = useCart();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const { user, logout, token } = useAuth();
+  // Get current path for active link
+  const location = window.location.pathname;
   return (
     <motion.nav
-      className="flex items-center justify-between px-8 py-4 navbar-dark rounded-b-3xl"
+      className="navbar-glass flex items-center justify-between px-8 py-3"
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, type: 'spring' }}
     >
       <div className="flex items-center gap-3">
-        {/* Candy logo */}
-        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full navbar-logo-dark shadow-lg">
-          <span className="text-3xl">🍬</span>
+        <span className="navbar-candy-logo shadow-lg">
+          <span role="img" aria-label="logo">🍬</span>
         </span>
-        <span className="text-3xl font-extrabold tracking-wider navbar-title-dark" style={{ fontFamily: 'Fredoka One' }}>SoSweet</span>
+        <span className="navbar-title-neon">SoSweet</span>
       </div>
-      <div className="flex gap-8">
+      <div className="flex gap-2 md:gap-4 lg:gap-8">
         {navLinks.map(link => (
-          <Link key={link.name} to={link.path} className="text-lg navbar-link-dark px-4 py-2 rounded-full">
+          <Link
+            key={link.name}
+            to={link.path}
+            className={`navbar-link-neon${location === link.path ? ' active' : ''}`}
+          >
             {link.name}
           </Link>
         ))}
       </div>
       <div className="flex items-center gap-4">
         <Link to="/cart" className="relative">
-          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full navbar-cart-dark shadow">
-            <span className="text-2xl">🍩</span>
+          <span className="navbar-cart-btn">
+            <span role="img" aria-label="cart">🛒</span>
+            {cartCount > 0 && (
+              <span className="navbar-cart-count animate-bounce">{cartCount}</span>
+            )}
           </span>
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-yellow-400 text-gray-900 text-xs font-bold rounded-full px-2 py-0.5 animate-bounce border-2 border-yellow-200">
-              {cartCount}
-            </span>
-          )}
         </Link>
         {token ? (
-          <>
-            {/* Avatar button for logout */}
-            <button
-              onClick={() => { logout(); window.location.href = "/login"; }}
-              className="ml-2 flex items-center gap-2 px-3 py-1 navbar-avatar-dark rounded-full font-bold shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
-            >
-              <span className="inline-block w-8 h-8 rounded-full navbar-avatar-dark flex items-center justify-center text-xl mr-1">🍭</span>
-              Logout
-            </button>
-          </>
+          <button
+            onClick={() => { logout(); window.location.href = "/login"; }}
+            className="navbar-avatar-btn ml-2 flex items-center justify-center"
+            title="Logout"
+          >
+            <span role="img" aria-label="avatar">🍭</span>
+          </button>
         ) : (
-          <Link to="/login" className="navbar-link-dark font-semibold text-sm px-4 py-2 rounded-full bg-yellow-100/60 hover:bg-yellow-200 transition-all">Login</Link>
+          <Link to="/login" className="navbar-link-neon font-semibold text-sm px-4 py-2 rounded-full bg-[#181c24] hover:bg-[#232a36] transition-all">Login</Link>
         )}
       </div>
     </motion.nav>

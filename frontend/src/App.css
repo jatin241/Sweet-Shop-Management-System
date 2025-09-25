@@ -1,3 +1,110 @@
+.navbar-glass {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: rgba(20, 20, 30, 0.82);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 2.5px solid #1a1a1a;
+  box-shadow: 0 2px 24px #0008;
+}
+.navbar-candy-logo {
+  background: linear-gradient(135deg, #ffb6e6 40%, #ffe082 100%);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 2px 12px #ffb6e655;
+  border: 2px solid #ffe082;
+}
+.navbar-title-neon {
+  font-family: 'Fredoka One', 'Poppins', 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffb6e6 20%, #ffe082 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px #ffe08288, 0 2px 16px #ffb6e6aa;
+  letter-spacing: 2px;
+}
+.navbar-link-neon {
+  position: relative;
+  color: #ffe082;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1.2rem;
+  transition: color 0.18s;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.navbar-link-neon:hover, .navbar-link-neon.active {
+  color: #ffb6e6;
+}
+.navbar-link-neon::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0.2rem;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffb6e6 0%, #ffe082 100%);
+  opacity: 0;
+  transform: scaleX(0.7);
+  transition: opacity 0.18s, transform 0.18s;
+}
+.navbar-link-neon:hover::after, .navbar-link-neon.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.navbar-cart-btn {
+  background: linear-gradient(135deg, #ffb6e6 40%, #ffe082 100%);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 12px #ffb6e655;
+  border: 2px solid #ffe082;
+  color: #1a1a1a;
+  position: relative;
+}
+.navbar-cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff3cac;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 50%;
+  padding: 2px 7px;
+  box-shadow: 0 0 8px #ffb6e6aa;
+  border: 2px solid #ffe082;
+}
+.navbar-avatar-btn {
+  background: #232a36;
+  color: #ffe082;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid #ffb6e6;
+  margin-left: 0.5rem;
+  box-shadow: 0 2px 8px #ffb6e655;
+}
 .glass-morphism {
   background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 #0004, 0 0 0 4px #ffe08255;
@@ -123,11 +230,24 @@ html, body, #root {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Fredoka One', 'Poppins', 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #181c24 0%, #232a36 60%, #1a1f29 100%);
+  font-family: 'Poppins', 'Inter', 'Quicksand', 'Segoe UI', Arial, sans-serif;
+  background: #0f0f0f;
   position: relative;
   overflow-x: hidden;
   color-scheme: dark;
+}
+
+.sweet-watermark-bg {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 900px;
+  z-index: 0;
+  opacity: 0.10;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Floating candy SVGs */
