@@ -1,6 +1,6 @@
 const express = require("express");
 const router=express.Router()
-const {  getSweets,postSweets,searchSweets,updateSweets,deleteSweets  }=require('../controllers/sweetsController.js');
+const {  getSweets,postSweets,searchSweets,updateSweets,deleteSweets,purchaseSweets  }=require('../controllers/sweetsController.js');
 
 
 const authCheck = require("../middleware/authCheck.js");
@@ -16,5 +16,6 @@ const adminCheck = require("../middleware/adminCheck.js");
 
 router.delete("/:id",authCheck,adminCheck,deleteSweets)
 
+router.post("/:id/purchase",purchaseSweets)
 
 module.exports = router;

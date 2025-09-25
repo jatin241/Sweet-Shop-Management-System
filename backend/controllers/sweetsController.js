@@ -82,6 +82,28 @@ async function deleteSweets(req,res) {
     }
 }
 
+async function purchaseSweets(req,res) {
+    const id = req.params.id;
+    const { quantity } = req.body; 
+    if (!quantity || quantity <= 0) {
+        return res.status(400).json({ msg: 'Invalid purchase quantity' });
+    }
+    try {
+        const sweet = await Sweet.findById(id);
+        if (!sweet) {
+            return res.status(404).json({ msg: 'Sweet not found' });
+        }
+        if (sweet.quantity < quantity) {
+            return res.status(400).json({ msg: 'Not enough stock available' });
+        }
+        sweet.quantity -= quantity;
+        await sweet.save();
+        res.status(200).json({ msg: 'Purchase successful', sweet });
+    } catch (err) {
+        res.status(400).json({ msg: 'Error processing purchase', error: err.message });
+    }
+}
+
 
 
 
@@ -90,6 +112,7 @@ module.exports={
     postSweets,
     searchSweets,
     updateSweets,
-    deleteSweets
+    deleteSweets,
+    purchaseSweets
    
 }
