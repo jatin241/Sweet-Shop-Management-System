@@ -61,6 +61,26 @@ async function updateSweets(req,res) {
         res.status(400).json({ msg: 'Error updating sweet', error: err.message });
     }
 }
+async function deleteSweets(req,res) {
+    const id = req.params.id;
+    const mongoose = require('mongoose');
+    try {
+        console.log('deleteSweets called with id:', id);
+        console.log('About to delete sweet with id:', id);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: 'Sweet not found' });
+        }
+        const sweet = await Sweet.findByIdAndDelete(id);
+        if (!sweet) {
+            return res.status(404).json({ msg: 'Sweet not found' });
+        }
+        console.log('Sweet found and deleted:', sweet);
+        res.status(200).json({ msg: 'Sweet deleted successfully' });
+    } catch (err) {
+        console.log('Delete error:', err);
+        res.status(500).json({ msg: 'Error deleting sweet', error: err.message });
+    }
+}
 
 
 
@@ -69,6 +89,7 @@ module.exports={
     getSweets,
     postSweets,
     searchSweets,
-    updateSweets
+    updateSweets,
+    deleteSweets
    
 }

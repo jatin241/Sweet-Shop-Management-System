@@ -22,14 +22,23 @@ beforeAll(async () => {
     token = loginRes.body.token;
     // Add sweets for searching
     await Sweet.create([
-        { name: 'Barfi', category: 'Milk', price: 100, quantity: 10 },
-        { name: 'Ladoo', category: 'Gram', price: 50, quantity: 20 },
-        { name: 'Jalebi', category: 'Sugar', price: 80, quantity: 15 }
+        {
+            name: 'Barfi',
+            category: 'Gram',
+            price: 100,
+            quantity: 10
+        },
+        {
+            name: 'Ladoo',
+            category: 'Gram',
+            price: 80,
+            quantity: 5
+        }
     ]);
 }, 20000);
 
 afterAll(async () => {
-    await Sweet.deleteMany({ name: { $in: ['Barfi', 'Ladoo', 'Jalebi'] } });
+    await Sweet.deleteMany({ name: { $in: ['Barfi', 'Ladoo', 'Jalebi', 'TestSweet'] } });
     await mongoose.connection.close();
 });
 

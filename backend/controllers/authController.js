@@ -5,23 +5,26 @@ const JWT_SECRET = "jatin123";
 const JWT_REFRESH_SECRET = "jatin456";
 
 async function register(req,res){
-    try{
-        const {email,password}=req.body;
-        if(!email || !password){
-            return res.status(404).json({msg:"email and password missing"})
+    try {
+        const { email, password, isAdmin } = req.body;
+        if (!email || !password) {
+            return res.status(404).json({ msg: "email and password missing" })
         }
-        const existingUser=await User.findOne({email});
-        if(existingUser){
-            return res.status(400).json({msg:"user already exists"});
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ msg: "user already exists" });
         }
-        const user=new User({email,password});
+        // Only allow isAdmin if explicitly set, default to false
+        const user = new User({
+            email,
+            password,
+            isAdmin: isAdmin === true // only true if explicitly set to true
+        });
         await user.save();
-
-        res.status(201).json({msg:"user created"})
-
-    }catch(err){
+        res.status(201).json({ msg: "user created" })
+    } catch (err) {
         console.log(err);
-        return res.status(500).json({msg:"server error"});
+        return res.status(500).json({ msg: "server error" });
     }
 }
 function generateToken(user) {
