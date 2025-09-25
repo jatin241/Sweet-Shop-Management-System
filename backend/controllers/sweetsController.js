@@ -1,5 +1,18 @@
 const Sweet = require("../models/sweetModel")
 
+async function getSweets(req,res) {
+    const sweets = await Sweet.find({})
+    if (!sweets) {
+        res.json({
+            msg: "error fetching sweets"
+        })
+    }
+    res.status(200).json({
+        sweets
+    })
+}
+
+
 async function postSweets(req, res) {
     const { name, category, price, quantity } = req.body;
     try {
@@ -11,7 +24,7 @@ async function postSweets(req, res) {
 }
 
 module.exports={
-   
+    getSweets,
     postSweets,
    
 }
