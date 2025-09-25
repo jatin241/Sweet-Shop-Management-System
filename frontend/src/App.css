@@ -1,1 +1,77 @@
 @import "tailwindcss";
+
+html, body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Fredoka One', 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #181c24 0%, #232a36 60%, #1a1f29 100%);
+  position: relative;
+  overflow-x: hidden;
+  color-scheme: dark;
+}
+
+/* Floating candy SVGs */
+
+.floating-candy {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.13;
+  animation: floatCandy 12s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px #232a36);
+}
+.floating-candy.candy1 { top: 8%; left: 5%; width: 80px; animation-delay: 0s; }
+.floating-candy.candy2 { top: 60%; left: 80%; width: 60px; animation-delay: 2s; }
+.floating-candy.candy3 { top: 30%; left: 60%; width: 100px; animation-delay: 4s; }
+.floating-candy.candy4 { top: 80%; left: 20%; width: 70px; animation-delay: 6s; }
+
+@keyframes floatCandy {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  50% { transform: translateY(-30px) scale(1.08) rotate(8deg); }
+}
+
+.sweet-pattern-section {
+  width: 100vw;
+  max-width: 100vw;
+  background: linear-gradient(120deg, #232a36 60%, #181c24 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+.sweet-pattern-img {
+  width: 340px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 #000a  ;
+  border: 4px solid #2d3748;
+  background: #232a36;
+}
+.sweet-pattern-info {
+  margin-left: 2.5rem;
+  color: #f3e8ff;
+  max-width: 420px;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+.sweet-pattern-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffe082;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+.sweet-pattern-desc {
+  font-size: 1.1rem;
+  color: #e0e7ef;
+  margin-bottom: 1.2rem;
+}
+.sweet-pattern-facts {
+  font-size: 1rem;
+  color: #b3b8c5;
+}

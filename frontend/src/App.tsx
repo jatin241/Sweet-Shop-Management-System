@@ -18,19 +18,19 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="min-h-screen bg-[#4d2323]">
+          <div className="min-h-screen">
+            {/* Floating candy SVGs for immersive background */}
+            <svg className="floating-candy candy1" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#ffb6e6" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🍬</text></svg>
+            <svg className="floating-candy candy2" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#b6ffe0" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🍭</text></svg>
+            <svg className="floating-candy candy3" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#e0b6ff" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🧁</text></svg>
+            <svg className="floating-candy candy4" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#b6e6ff" /><text x="50%" y="55%" textAnchor="middle" fontSize="32" fill="#fff">🍩</text></svg>
             <Toaster position="top-center" richColors />
             <Navbar />
             <Routes>
               <Route path="/" element={<HomeHero />} />
-              <Route path="/about" element={<Placeholder title="About Us" />} />
-              <Route path="/menu" element={<MenuPage />} />
-              <Route path="/reviews" element={<Placeholder title="Reviews" />} />
-              <Route path="/contact" element={<Placeholder title="Contact" />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Placeholder title="User Profile" /></ProtectedRoute>} />
               <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
             </Routes>
           </div>
@@ -134,34 +134,40 @@ function SweetCard({ sweet }: { sweet: Sweet }) {
 }
 
 function HomeHero() {
+  // Example sweet info (Rasmalai)
+  const sweet = {
+    name: "Rasmalai",
+    img: "/Rasmalai.jpg",
+    desc: "Rasmalai is a soft, spongy dessert made from chenna (Indian cottage cheese) soaked in sweet, thickened milk flavored with cardamom and saffron. A Bengali classic, it's creamy, aromatic, and melts in your mouth.",
+    facts: [
+      "Origin: Bengal, India",
+      "Main ingredients: Chenna, milk, sugar, cardamom, saffron",
+      "Served chilled for a refreshing treat",
+    ],
+  };
   return (
-    <div className="flex flex-col items-center pt-10 pb-8">
+    <div className="w-full flex flex-col items-center pt-10 pb-8">
       <motion.div
-        className="flex flex-col items-center"
+        className="flex flex-col items-center w-full"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, type: 'spring' }}
       >
-        <div className="relative flex flex-col items-center">
-          <img
-            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
-            alt="Yami Eclair"
-            className="w-64 h-40 object-cover rounded-3xl shadow-xl border-4 border-pink-200"
-            style={{ marginBottom: '-2.5rem', zIndex: 2 }}
-          />
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.97 }}
-            className="absolute bottom-[-1.5rem] left-1/2 -translate-x-1/2 px-8 py-3 bg-pink-200 text-[#4d2323] font-bold rounded-full shadow-lg text-xl border-2 border-pink-300 hover:bg-pink-300 transition-colors"
-          >
-            Add to cart
-            <span className="ml-2 text-2xl">+</span>
-          </motion.button>
-        </div>
-        <h1 className="mt-16 text-5xl font-extrabold text-pink-200 tracking-tight text-center" style={{ fontFamily: 'Fredoka One' }}>
-          Yami Eclair
+        {/* Modern sweet pattern section */}
+        <section className="sweet-pattern-section mt-2 mb-10">
+          <img src={sweet.img} alt={sweet.name} className="sweet-pattern-img" />
+          <div className="sweet-pattern-info">
+            <div className="sweet-pattern-title">{sweet.name}</div>
+            <div className="sweet-pattern-desc">{sweet.desc}</div>
+            <ul className="sweet-pattern-facts list-disc pl-5">
+              {sweet.facts.map(f => <li key={f}>{f}</li>)}
+            </ul>
+          </div>
+        </section>
+        <h1 className="mt-2 text-5xl font-extrabold text-yellow-200 tracking-tight text-center" style={{ fontFamily: 'Fredoka One' }}>
+          SoSweet
         </h1>
-        <p className="mt-4 text-lg text-pink-100 text-center max-w-xl">
+        <p className="mt-4 text-lg text-gray-200 text-center max-w-xl">
           The best things in life are warm, custard and topped with delicious cream
         </p>
         <div className="flex gap-4 mt-8">
@@ -169,7 +175,7 @@ function HomeHero() {
           <InfoCard icon="🍰" title="Unique Recipe" desc="Savouring 100% baked items from our oven to your plate" />
           <InfoCard icon="🥐" title="100%baked" desc="Enjoy peace of mind with our secure packing" />
         </div>
-        <a href="/dashboard" className="mt-8 px-6 py-3 bg-pink-400 text-white font-bold rounded-full shadow-lg text-lg border-2 border-pink-300 hover:bg-pink-500 transition-colors">Go to Dashboard</a>
+        <a href="/dashboard" className="mt-8 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-full shadow-lg text-lg border-2 border-yellow-300 hover:bg-yellow-500 transition-colors">Go to Dashboard</a>
       </motion.div>
     </div>
   );
@@ -190,10 +196,8 @@ function InfoCard({ icon, title, desc }: { icon: string, title: string, desc: st
 }
 
 const navLinks = [
-  { name: 'About us', path: '/about' },
-  { name: 'Menu', path: '/menu' },
-  { name: 'Reviews', path: '/reviews' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'Home', path: '/' },
+  { name: 'Dashboard', path: '/dashboard' },
 ];
 
 function Navbar() {
@@ -202,26 +206,30 @@ function Navbar() {
   const { user, logout, token } = useAuth();
   return (
     <motion.nav
-      className="flex items-center justify-between px-8 py-4 bg-[#4d2323] rounded-b-3xl shadow-lg"
+      className="flex items-center justify-between px-8 py-4 bg-white/70 backdrop-blur-md rounded-b-3xl shadow-lg border-b-4 border-pink-200"
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, type: 'spring' }}
     >
-      <div className="flex items-center gap-2">
-        <span className="text-3xl font-extrabold tracking-wider text-pink-200" style={{ fontFamily: 'Fredoka One' }}>YAMI CON</span>
+      <div className="flex items-center gap-3">
+        {/* Candy logo */}
+        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-pink-200 via-pink-300 to-pink-400 shadow-lg border-2 border-pink-300">
+          <span className="text-3xl">🍬</span>
+        </span>
+        <span className="text-3xl font-extrabold tracking-wider text-pink-400 drop-shadow" style={{ fontFamily: 'Fredoka One' }}>SoSweet</span>
       </div>
       <div className="flex gap-8">
         {navLinks.map(link => (
-          <Link key={link.name} to={link.path} className="text-lg font-semibold text-pink-100 hover:text-pink-300 transition-colors duration-200">
+          <Link key={link.name} to={link.path} className="text-lg font-semibold text-pink-500 hover:text-pink-400 transition-colors duration-200 px-4 py-2 rounded-full hover:bg-pink-100/60">
             {link.name}
           </Link>
         ))}
       </div>
       <div className="flex items-center gap-4">
         <Link to="/cart" className="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-pink-200 hover:text-pink-400 transition-colors duration-200">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 106 0m-6 0a3 3 0 016 0m-6 0H5.25a2.25 2.25 0 01-2.197-1.772L3 6.75m1.5 7.5l1.5-7.5m0 0L5.25 3m1.5 3.75h11.25a1.125 1.125 0 011.125 1.125v7.5a2.25 2.25 0 01-2.25 2.25H7.5" />
-          </svg>
+          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-pink-200 via-pink-300 to-pink-400 shadow border-2 border-pink-200">
+            <span className="text-2xl">🍩</span>
+          </span>
           {cartCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-pink-400 text-white text-xs font-bold rounded-full px-2 py-0.5 animate-bounce">
               {cartCount}
@@ -230,16 +238,17 @@ function Navbar() {
         </Link>
         {token ? (
           <>
-            <span className="text-pink-100 text-sm font-semibold">{user}</span>
+            {/* Avatar button for logout */}
             <button
               onClick={() => { logout(); window.location.href = "/login"; }}
-              className="ml-2 px-3 py-1 bg-pink-400 text-white rounded-full font-bold hover:bg-pink-500 transition-colors text-sm"
+              className="ml-2 flex items-center gap-2 px-3 py-1 bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white rounded-full font-bold shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
             >
+              <span className="inline-block w-8 h-8 rounded-full bg-pink-200 flex items-center justify-center text-xl mr-1 border-2 border-pink-300">🍭</span>
               Logout
             </button>
           </>
         ) : (
-          <Link to="/login" className="text-pink-200 hover:text-pink-400 font-semibold text-sm">Login</Link>
+          <Link to="/login" className="text-pink-400 hover:text-pink-500 font-semibold text-sm px-4 py-2 rounded-full bg-pink-100/60 hover:bg-pink-200 transition-all">Login</Link>
         )}
       </div>
     </motion.nav>
