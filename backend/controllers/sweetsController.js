@@ -44,12 +44,31 @@ async function searchSweets(req,res) {
         res.status(400).json({ msg: 'Error searching sweets', error: err.message });
     }
 }
+async function updateSweets(req,res) {
+    const id = req.params.id;
+    const { name, category, price, quantity } = req.body;
+    try {
+        const sweet = await Sweet.findByIdAndUpdate(
+            id,
+            { name, category, price, quantity },
+            { new: true, runValidators: true }
+        );
+        if (!sweet) {
+            return res.status(404).json({ msg: 'Sweet not found' });
+        }
+        res.status(200).json({ msg: 'Sweet updated successfully', sweet });
+    } catch (err) {
+        res.status(400).json({ msg: 'Error updating sweet', error: err.message });
+    }
+}
+
 
 
 
 module.exports={
     getSweets,
     postSweets,
-    searchSweets
+    searchSweets,
+    updateSweets
    
 }

@@ -1,6 +1,6 @@
 const express = require("express");
 const router=express.Router()
-const {  getSweets,postSweets,searchSweets  }=require('../controllers/sweetsController.js');
+const {  getSweets,postSweets,searchSweets,updateSweets  }=require('../controllers/sweetsController.js');
 
 
 
@@ -10,6 +10,8 @@ const {  getSweets,postSweets,searchSweets  }=require('../controllers/sweetsCont
  router.post("/",postSweets)
 
  router.post("/search", searchSweets)
+
+ router.put("/:id",updateSweets)
 
 
 
