@@ -1,10 +1,12 @@
 const express= require("express");
 const mongoose=require('mongoose')
 const authRoute=require("./routes/app");
+const sweetsRoute = require("./routes/sweets")
 const app=express();
 app.use(express.json());
 
 app.use("/api/auth",authRoute);
+app.use("/api/sweets", sweetsRoute)
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/userRegistration')
