@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link, BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Link, BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import "./App.css"; // Assuming this is where custom floating-candy/watermark styles are defined
-import { CartProvider, useCart } from "./contexts/CartContext";
+import "./App.css"; 
+import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { fetchSweets, purchaseSweet } from "./services/api";
 
 import { Toaster, toast } from "sonner";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
-//import Dashboard from "./Dashboard";
 
-// --- START: Refactored Components ---
-
-// Simple Navbar implementation (matches image style)
 function SimpleNavbar() {
   const { user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[oklch(from_var(--background)_l_c_h_/_80%)] backdrop-blur-sm shadow-xl text-sm py-4">
       <nav className="max-w-[85rem] w-full mx-auto px-4 flex items-center justify-between">         
-        {/* Brand / Logo (Using 'ReadymadeUI' inspired style) */}
 				<Link 
 					to="/" 
 					className="flex items-center gap-2 font-bold text-2xl text-[var(--foreground)] hover:text-[var(--primary)] transition focus:outline-none"
@@ -44,7 +39,6 @@ function SimpleNavbar() {
           >
             Sweets
           </Link>
-					{/* Cart link removed from navbar as requested */}
           
           {user ? (
             <>
@@ -70,10 +64,8 @@ function SimpleNavbar() {
   );
 }
 function HomeHero() {
-  // Refactoring Hero to match the image's structure
   return (
     <div className="w-full flex flex-col items-center pt-24 pb-32 relative bg-black" style={{ minHeight: 600 }}>
-      {/* Background effect - using the existing faint background for a dark aesthetic */}
            <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)] via-[var(--muted)] to-[var(--background)] opacity-90 z-0"></div>      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-10 z-0"></div> {/* Placeholder for subtle background pattern */}
         
       <motion.div
@@ -89,10 +81,8 @@ function HomeHero() {
           Discover artisanal sweets: crafted with passion, delivered with care. The best things in life are warm, custard, and topped with delicious cream.
         </p>
 
-				{/* Removed stats and action buttons as requested */}
       </motion.div>
 
-      {/* New section for InfoCards below the hero for separation, using a section heading */}
       <section className="w-full max-w-6xl mx-auto py-16 z-10">
         <h2 className="text-3xl font-bold text-center text-white mb-10">Why Choose SoSweet?</h2>
         <div className="flex justify-center gap-6 flex-wrap">
@@ -121,8 +111,8 @@ function InfoCard({ icon, title, desc }: { icon: string, title: string, desc: st
         whileHover={{ scale: 1.05, boxShadow: "0 10px 30px 0 oklch(from var(--primary) l c h / 0.3)" }}
         transition={{ type: 'spring', stiffness: 300 }}
       >      <span className="text-4xl mb-3">{icon}</span>
-      <span className="font-bold text-white text-xl mb-2">{title}</span>
-      <span className="text-gray-400 text-center text-sm">{desc}</span>
+      <span className="font-bold text-black text-xl mb-2">{title}</span>
+      <span className=" text-center text-sm">{desc}</span>
     </motion.div>
   );
 }
@@ -172,7 +162,7 @@ function SweetCard({ sweet }: { sweet: Sweet }) {
 
       {/* Card content */}
       <div className="flex flex-col">
-        <h3 className="text-white text-lg font-bold mb-1">{sweet.name}</h3>
+        <h3 className="text-black text-lg font-bold mb-1">{sweet.name}</h3>
         {sweet.category && (
           <p className="text-xs text-[var(--primary)] mb-2 uppercase tracking-wide">
             {sweet.category}
@@ -229,7 +219,7 @@ function MenuGrid() {
 					price: Number(addForm.price),
 					quantity: Number(addForm.quantity),
 				};
-				await addSweet(sweet, token);
+				await addSweet(sweet, token!);
 				toast.success("Sweet added!");
 				setAddForm({ name: "", category: "", price: "", quantity: "" });
 				// Refresh list
@@ -256,7 +246,7 @@ function MenuGrid() {
 					price: Number(editForm.price),
 					quantity: Number(editForm.quantity),
 				};
-				await updateSweet(editId, sweet, token);
+				await updateSweet(editId, sweet, token!);
 				toast.success("Sweet updated!");
 				setEditId(null);
 				setEditForm({ name: "", category: "", price: "", quantity: "" });
@@ -276,7 +266,7 @@ function MenuGrid() {
 			if (!window.confirm("Delete this sweet?")) return;
 			try {
 				const { deleteSweet } = await import("./services/api");
-				await deleteSweet(id, token);
+				await deleteSweet(id, token!);
 				toast.success("Sweet deleted!");
 				// Refresh list
 				const data = await fetchSweets();
@@ -321,13 +311,21 @@ function MenuGrid() {
       <h2 className="text-4xl font-extrabold text-center text-white mb-12">Our Sweet Selection</h2>
       {/* Admin Add Sweet Form */}
       {isAdmin && (
-        <form onSubmit={handleAddSweet} className="flex flex-wrap gap-4 mb-8 items-end bg-[oklch(from_var(--background)_l_c_h_/_60%)] p-4 rounded-xl border border-[var(--sidebar-border)]">
-          <input required value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white w-40" />
-          <input required value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white w-32" />
-          <input required value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white w-24" />
-          <input required value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white w-20" />
-          <button type="submit" disabled={addLoading} className="px-4 py-2 bg-[var(--primary)] text-white rounded font-bold hover:bg-[var(--primary)] disabled:opacity-60">{addLoading ? "Adding..." : "Add Sweet"}</button>
-        </form>
+        <motion.form 
+          onSubmit={handleAddSweet} 
+          className="flex flex-wrap gap-4 text-black mb-8 items-end bg-gradient-to-br from-[var(--muted)] via-[var(--background)] to-[var(--muted)] p-4 rounded-2xl shadow-lg border border-[var(--sidebar-border)]"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <input required value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 text-black rounded-lg bg-transparent border border-gray-600  w-40 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600  w-32 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600  w-24 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 w-20 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <button type="submit" disabled={addLoading} className="px-5 py-2.5 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white font-bold rounded-full shadow-lg text-sm hover:from-[var(--primary)] hover:to-[var(--accent)] transition disabled:opacity-50">
+            {addLoading ? "Adding..." : "Add Sweet"}
+          </button>
+        </motion.form>
       )}
       {/* Search and filter section */}
       <div className="flex flex-col md:flex-row gap-4 mb-10 items-center justify-center">
@@ -336,12 +334,12 @@ function MenuGrid() {
           placeholder="Search sweets..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-lg border border-[var(--primary)] bg-black text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-64"
+          className="px-4 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-64"
         />
         <select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="px-4 py-2 rounded-lg border border-[var(--primary)] bg-black text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-56"
+          className="px-4 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-56"
         >
           <option value="">All Types</option>
           {allCategories.map(cat => (
@@ -355,16 +353,25 @@ function MenuGrid() {
           // Admin edit mode
           if (isAdmin && editId === sweet._id) {
             return (
-              <form key={sweet._id} onSubmit={handleEditSweet} className="bg-[oklch(from_var(--background)_l_c_h_/_70%)] border border-[var(--sidebar-border)] rounded-2xl p-4 flex flex-col gap-2 shadow-xl">
-                <input required value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white" />
-                <input required value={editForm.category} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white" />
-                <input required value={editForm.price} onChange={e => setEditForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white" />
-                <input required value={editForm.quantity} onChange={e => setEditForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded border border-[var(--primary)] bg-black text-white" />
+              <motion.form 
+                key={sweet._id} 
+                onSubmit={handleEditSweet} 
+                className="bg-gradient-to-br from-[var(--muted)] via-[var(--background)] to-[var(--muted)] border border-[var(--sidebar-border)] rounded-2xl p-4 flex flex-col gap-2 shadow-xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <input required value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+                <input required value={editForm.category} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+                <input required value={editForm.price} onChange={e => setEditForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+                <input required value={editForm.quantity} onChange={e => setEditForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
                 <div className="flex gap-2 mt-2">
-                  <button type="submit" disabled={editLoading} className="px-4 py-2 bg-[var(--primary)] text-white rounded font-bold hover:bg-[var(--primary)] disabled:opacity-60">{editLoading ? "Saving..." : "Save"}</button>
-                  <button type="button" onClick={() => setEditId(null)} className="px-4 py-2 bg-gray-700 text-white rounded font-bold hover:bg-gray-800">Cancel</button>
+                  <button type="submit" disabled={editLoading} className="px-5 py-2.5 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white font-bold rounded-full shadow-lg text-sm hover:from-[var(--primary)] hover:to-[var(--accent)] transition disabled:opacity-50">
+                    {editLoading ? "Saving..." : "Save"}
+                  </button>
+                  <button type="button" onClick={() => setEditId(null)} className="px-5 py-2.5 bg-gray-700 text-white font-bold rounded-full shadow-lg text-sm hover:bg-gray-800 transition">Cancel</button>
                 </div>
-              </form>
+              </motion.form>
             );
           }
           return (
@@ -420,25 +427,13 @@ type Sweet = {
 };
 
 
-// Function components used in Routes
-function MenuPage() {
-  return (
-    <>
-      <HomeHero />
-      <MenuGrid />
-    </>
-  );
-}
-
-
-// Main App component
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
           {/* Overall background shifted to deep black with subtle effects */}
-                  <div className="min-h-screen relative bg-black text-white">
+                  <div className="min-h-screen relative bg-black ">
                     {/* Large faint sweet watermark background (Kept, assuming it's styled dark in App.css) */}
                     <svg className="sweet-watermark-bg" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="450" cy="450" r="420" fill="oklch(from var(--primary) l c h / 15%)" /> {/* Darker Circle */}
