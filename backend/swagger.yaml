@@ -1,0 +1,243 @@
+
+openapi: 3.0.0
+info:
+  title: Sweet Shop Management API
+  description: API for managing sweets and users in a sweet shop.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                isAdmin:
+                  type: boolean
+      responses:
+        '201':
+          description: User created
+        '400':
+          description: User already exists
+        '404':
+          description: Email and password missing
+        '500':
+          description: Server error
+  /login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  refreshToken:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: User not found or missing email/password
+        '500':
+          description: Server error
+  /sweets:
+    get:
+      summary: Get all sweets
+      responses:
+        '200':
+          description: A list of sweets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sweets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sweet'
+    post:
+      summary: Create a new sweet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sweet'
+      responses:
+        '201':
+          description: Sweet added successfully
+        '400':
+          description: Error adding sweet
+  /sweets/search:
+    post:
+      summary: Search for sweets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                category:
+                  type: string
+                minPrice:
+                  type: number
+                maxPrice:
+                  type: number
+      responses:
+        '200':
+          description: A list of sweets that match the search criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sweets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sweet'
+        '400':
+          description: Error searching sweets
+  /sweets/{id}:
+    put:
+      summary: Update a sweet
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sweet'
+      responses:
+        '200':
+          description: Sweet updated successfully
+        '400':
+          description: Error updating sweet
+        '404':
+          description: Sweet not found
+    delete:
+      summary: Delete a sweet (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sweet deleted successfully
+        '404':
+          description: Sweet not found
+        '500':
+          description: Error deleting sweet
+  /sweets/{id}/purchase:
+    post:
+      summary: Purchase a sweet
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+      responses:
+        '200':
+          description: Purchase successful
+        '400':
+          description: Invalid purchase quantity or not enough stock
+        '404':
+          description: Sweet not found
+  /sweets/{id}/restock:
+    post:
+      summary: Restock a sweet (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+      responses:
+        '200':
+          description: Restock successful
+        '400':
+          description: Invalid restock quantity
+        '404':
+          description: Sweet not found
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        isAdmin:
+          type: boolean
+    Sweet:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: number
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-[#5e2d2d] rounded-2xl shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-pink-200 mb-6 text-center">Sweets Dashboard</h2>
+    <div className="max-w-4xl mx-auto mt-10 bg-[var(--muted)] rounded-2xl shadow-lg p-8">
+      <h2 className="text-3xl font-bold text-[var(--primary)] mb-6 text-center">Sweets Dashboard</h2>
 
       {/* Admin Add Sweet Form */}
       {isAdmin && (
@@ -67,17 +67,17 @@ const Dashboard: React.FC = () => {
               toast.error(err?.response?.data?.msg || "Failed to add sweet");
             }
           }}
-          className="flex flex-wrap gap-4 justify-center mb-8 bg-[#4d2323] p-4 rounded-lg"
+          className="flex flex-wrap gap-4 justify-center mb-8 bg-[var(--background)] p-4 rounded-lg"
         >
-          <input type="text" placeholder="Name" value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} className="px-3 py-2 rounded bg-[#5e2d2d] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400" required />
-          <input type="text" placeholder="Category" value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} className="px-3 py-2 rounded bg-[#5e2d2d] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400" />
-          <input type="number" placeholder="Price" value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} className="px-3 py-2 rounded bg-[#5e2d2d] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400" required min="0" />
-          <input type="number" placeholder="Quantity" value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} className="px-3 py-2 rounded bg-[#5e2d2d] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400" required min="0" />
+          <input type="text" placeholder="Name" value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} className="px-3 py-2 rounded bg-[var(--muted)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]" required />
+          <input type="text" placeholder="Category" value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} className="px-3 py-2 rounded bg-[var(--muted)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]" />
+          <input type="number" placeholder="Price" value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} className="px-3 py-2 rounded bg-[var(--muted)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]" required min="0" />
+          <input type="number" placeholder="Quantity" value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} className="px-3 py-2 rounded bg-[var(--muted)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]" required min="0" />
           <motion.button
             whileTap={{ scale: 0.93 }}
             whileHover={{ scale: 1.07 }}
             type="submit"
-            className="bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white font-bold px-6 py-2 rounded-full shadow hover:shadow-lg transition-all"
+            className="bg-gradient-to-tr from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] text-white font-bold px-6 py-2 rounded-full shadow hover:shadow-lg transition-all"
           >
             Add Sweet
           </motion.button>
@@ -89,20 +89,20 @@ const Dashboard: React.FC = () => {
           placeholder="Search by name"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-4 py-2 rounded bg-[#4d2323] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400"
+          className="px-4 py-2 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]"
         />
         <input
           type="text"
           placeholder="Filter by category"
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="px-4 py-2 rounded bg-[#4d2323] text-pink-100 border border-pink-300 focus:outline-none focus:border-pink-400"
+          className="px-4 py-2 rounded bg-[var(--background)] text-[var(--foreground)] border border-[var(--primary)] focus:outline-none focus:border-[var(--secondary)]"
         />
         <motion.button
           whileTap={{ scale: 0.93 }}
           whileHover={{ scale: 1.07 }}
           type="submit"
-          className="bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white font-bold px-6 py-2 rounded-full shadow hover:shadow-lg transition-all"
+          className="bg-gradient-to-tr from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] text-white font-bold px-6 py-2 rounded-full shadow hover:shadow-lg transition-all"
           disabled={loading}
         >
           Search
@@ -111,14 +111,14 @@ const Dashboard: React.FC = () => {
           whileTap={{ scale: 0.93 }}
           whileHover={{ scale: 1.07 }}
           type="button"
-          className="bg-pink-100 text-[#4d2323] font-bold px-4 py-2 rounded-full shadow hover:bg-pink-200 transition-all"
+          className="bg-[var(--secondary)] text-[var(--background)] font-bold px-4 py-2 rounded-full shadow hover:bg-[var(--accent)] transition-all"
           onClick={async () => { setLoading(true); setError(""); setSearch(""); setCategory(""); try { const all = await fetchSweets(); setSweets(all); } catch { setError("Failed to load sweets."); } finally { setLoading(false); } }}
         >
           Reset
         </motion.button>
       </form>
-      {loading && <div className="text-pink-100 text-center">Loading sweets...</div>}
-      {error && <div className="text-red-400 text-center">{error}</div>}
+      {loading && <div className="text-[var(--foreground)] text-center">Loading sweets...</div>}
+      {error && <div className="text-[var(--destructive)] text-center">{error}</div>}
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
           {sweets.map((sweet, idx) => {
@@ -185,35 +185,35 @@ const Dashboard: React.FC = () => {
             return (
               <div
                 key={sweet._id || sweet.name}
-                className="relative bg-gradient-to-tr from-pink-100 via-pink-200 to-pink-300 rounded-3xl shadow-xl p-5 flex flex-col items-center group transition-transform duration-200 hover:scale-105 hover:shadow-2xl border-2 border-pink-200"
+                className="relative bg-gradient-to-tr from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] rounded-3xl shadow-xl p-5 flex flex-col items-center group transition-transform duration-200 hover:scale-105 hover:shadow-2xl border-2 border-[var(--secondary)]"
               >
                 {/* Candy icon overlay */}
                 <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-4xl drop-shadow-lg select-none">
                   {candyIcon}
                 </span>
-                <img src={imgSrc} alt={sweet.name} className="w-24 h-16 object-cover rounded-xl mb-2 border-2 border-pink-300 group-hover:border-pink-400 transition-colors duration-200 bg-white" />
+                <img src={imgSrc} alt={sweet.name} className="w-24 h-16 object-cover rounded-xl mb-2 border-2 border-[var(--primary)] group-hover:border-[var(--secondary)] transition-colors duration-200 bg-[var(--card)]" />
                 {editIdx === idx ? (
                   <>
-                    <input type="text" value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} className="px-2 py-1 rounded bg-white text-pink-700 border border-pink-300 w-24 mb-1" />
-                    <input type="text" value={editForm.category} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))} className="px-2 py-1 rounded bg-white text-pink-700 border border-pink-300 w-20 mb-1" />
-                    <input type="number" value={editForm.price} onChange={e => setEditForm(f => ({ ...f, price: e.target.value }))} className="px-2 py-1 rounded bg-white text-pink-700 border border-pink-300 w-16 mb-1" />
-                    <input type="number" value={editForm.quantity} onChange={e => setEditForm(f => ({ ...f, quantity: e.target.value }))} className="px-2 py-1 rounded bg-white text-pink-700 border border-pink-300 w-16 mb-2" />
+                    <input type="text" value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} className="px-2 py-1 rounded bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--primary)] w-24 mb-1" />
+                    <input type="text" value={editForm.category} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))} className="px-2 py-1 rounded bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--primary)] w-20 mb-1" />
+                    <input type="number" value={editForm.price} onChange={e => setEditForm(f => ({ ...f, price: e.target.value }))} className="px-2 py-1 rounded bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--primary)] w-16 mb-1" />
+                    <input type="number" value={editForm.quantity} onChange={e => setEditForm(f => ({ ...f, quantity: e.target.value }))} className="px-2 py-1 rounded bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--primary)] w-16 mb-2" />
                     <div className="flex gap-2">
-                      <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white font-bold px-3 py-1 rounded-full shadow hover:shadow-lg transition-all" onClick={handleEditSave}>Save</motion.button>
-                      <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-pink-100 text-[#4d2323] font-bold px-3 py-1 rounded-full shadow hover:bg-pink-200 transition-all" onClick={() => setEditIdx(null)}>Cancel</motion.button>
+                      <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-gradient-to-tr from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] text-white font-bold px-3 py-1 rounded-full shadow hover:shadow-lg transition-all" onClick={handleEditSave}>Save</motion.button>
+                      <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-[var(--secondary)] text-[var(--background)] font-bold px-3 py-1 rounded-full shadow hover:bg-[var(--accent)] transition-all" onClick={() => setEditIdx(null)}>Cancel</motion.button>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="text-lg font-bold text-pink-700 mb-1 text-center">{sweet.name}</div>
-                    <div className="text-xs text-pink-500 mb-1">{sweet.category || '-'}</div>
-                    <div className="text-pink-600 font-bold text-xl mb-1">${sweet.price}</div>
-                    <div className="text-xs text-pink-400 mb-2">{sweet.quantity ?? '-'} left</div>
+                    <div className="text-lg font-bold text-[var(--card-foreground)] mb-1 text-center">{sweet.name}</div>
+                    <div className="text-xs text-[var(--muted-foreground)] mb-1">{sweet.category || '-'}</div>
+                    <div className="text-[var(--primary)] font-bold text-xl mb-1">${sweet.price}</div>
+                    <div className="text-xs text-[var(--muted-foreground)] mb-2">{sweet.quantity ?? '-'} left</div>
                     <div className="flex gap-2 w-full justify-center">
                       <motion.button
                         whileTap={{ scale: 0.93 }}
                         whileHover={{ scale: 1.12 }}
-                        className="bg-gradient-to-tr from-pink-300 via-pink-400 to-pink-500 text-white font-bold px-4 py-1 rounded-full shadow hover:shadow-lg transition-all disabled:opacity-60"
+                        className="bg-gradient-to-tr from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] text-white font-bold px-4 py-1 rounded-full shadow hover:shadow-lg transition-all disabled:opacity-60"
                         disabled={!sweet.quantity || sweet.quantity <= 0}
                         onClick={handlePurchase}
                       >
@@ -221,8 +221,8 @@ const Dashboard: React.FC = () => {
                       </motion.button>
                       {isAdmin && (
                         <>
-                          <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-yellow-300 text-[#4d2323] font-bold px-2 py-1 rounded-full shadow hover:bg-yellow-400 transition-all" onClick={startEdit}>Edit</motion.button>
-                          <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-red-300 text-white font-bold px-2 py-1 rounded-full shadow hover:bg-red-400 transition-all" onClick={handleDelete}>Delete</motion.button>
+                          <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-[var(--secondary)] text-[var(--background)] font-bold px-2 py-1 rounded-full shadow hover:bg-[var(--accent)] transition-all" onClick={startEdit}>Edit</motion.button>
+                          <motion.button whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.07 }} className="bg-[var(--destructive)] text-[var(--destructive-foreground)] font-bold px-2 py-1 rounded-full shadow hover:bg-[var(--destructive)] transition-all" onClick={handleDelete}>Delete</motion.button>
                         </>
                       )}
                     </div>

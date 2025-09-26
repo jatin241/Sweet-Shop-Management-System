@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sweet Shop Design System - Candy-themed colors and gradients 
+All colors MUST be HSL for perfect theming.
+*/
+
+@layer base {
+  :root {
+    /* Sweet Shop Background Gradients */
+    --background: 332 100% 97%;
+    --foreground: 330 25% 15%;
+
+    /* Candy Card Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 330 25% 15%;
+    --card-glass: 332 60% 95%;
+
+    /* Popover & Dropdown Colors */
+    --popover: 340 50% 98%;
+    --popover-foreground: 330 25% 15%;
+
+    /* Sweet Primary Colors (Cotton Candy Pink) */
+    --primary: 332 82% 70%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 332 95% 85%;
+
+    /* Secondary Colors (Mint Cream) */
+    --secondary: 152 40% 85%;
+    --secondary-foreground: 330 25% 15%;
+
+    /* Muted Colors (Lavender) */
+    --muted: 270 30% 92%;
+    --muted-foreground: 270 15% 45%;
+
+    /* Accent Colors (Sky Blue) */
+    --accent: 195 75% 80%;
+    --accent-foreground: 195 30% 15%;
+
+    /* Sweet Success (Mint) */
+    --success: 152 65% 60%;
+    --success-foreground: 0 0% 100%;
+
+    /* Candy Error (Cherry) */
+    --destructive: 350 85% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border & Input (Soft Pink) */
+    --border: 332 30% 88%;
+    --input: 332 25% 90%;
+    --ring: 332 82% 70%;
+
+    /* Sweet Gradients */
+    --gradient-candy: linear-gradient(135deg, hsl(332, 82%, 70%) 0%, hsl(152, 75%, 75%) 100%);
+    --gradient-sky: linear-gradient(135deg, hsl(270, 60%, 85%) 0%, hsl(195, 75%, 80%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(332, 82%, 70%) 0%, hsl(25, 85%, 75%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+
+    /* Shadows & Effects */
+    --shadow-candy: 0 10px 30px -10px hsl(332 82% 70% / 0.3);
+    --shadow-glow: 0 0 40px hsl(332 95% 85% / 0.4);
+    --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.15);
+
+    /* Animation & Transitions */
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Sweet Shop Mode */
+    --background: 330 25% 8%;
+    --foreground: 332 60% 95%;
+
+    --card: 330 25% 12%;
+    --card-foreground: 332 60% 95%;
+    --card-glass: 330 40% 15%;
+
+    --popover: 330 25% 10%;
+    --popover-foreground: 332 60% 95%;
+
+    --primary: 332 75% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 332 85% 75%;
+
+    --secondary: 152 35% 25%;
+    --secondary-foreground: 152 60% 85%;
+
+    --muted: 270 20% 18%;
+    --muted-foreground: 270 30% 65%;
+
+    --accent: 195 65% 45%;
+    --accent-foreground: 195 80% 90%;
+
+    --success: 152 55% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 350 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 330 20% 20%;
+    --input: 330 20% 18%;
+    --ring: 332 75% 65%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: var(--gradient-candy);
+    min-height: 100vh;
+  }
+
+  /* Sweet Shop Animations */
+  .candy-bounce {
+    animation: candyBounce 0.6s ease-out;
+  }
+
+  .glass-morphism {
+    backdrop-filter: blur(20px);
+    background: var(--gradient-glass);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .candy-gradient {
+    background: var(--gradient-candy);
+  }
+
+  .sky-gradient {
+    background: var(--gradient-sky);
+  }
+
+  .sunset-gradient {
+    background: var(--gradient-sunset);
+  }
+
+  .candy-shadow {
+    box-shadow: var(--shadow-candy);
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glass-shadow {
+    box-shadow: var(--shadow-glass);
+  }
+
+  .smooth-transition {
+    transition: var(--transition-smooth);
+  }
+
+  .bounce-transition {
+    transition: var(--transition-bounce);
+  }
+}
+
+@keyframes candyBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes floatCandy {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes flyAway {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(0.3) rotate(360deg) translateY(-200px); opacity: 0; }
+}
