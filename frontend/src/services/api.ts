@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://https://sweet-shop-management-system-v0jh.onrender.com/:3000";
+const API_URL = "https://sweet-shop-management-system-v0jh.onrender.com";
 
 export async function fetchSweets() {
   const res = await axios.get(`${API_URL}/api/sweets`);
