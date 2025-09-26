@@ -1,5 +1,6 @@
 const express= require("express");
 const mongoose=require('mongoose')
+require('dotenv').config()
 
 const cors = require('cors');
 const authRoute=require("./routes/app");
@@ -15,14 +16,13 @@ app.use("/api/auth",authRoute);
 app.use("/api/sweets", sweetsRoute)
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/userRegistration')
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>{console.log("MongoDB conneceted")})
 .catch(err=>(console.log("mongo error",err)))
 
 
-const PORT=3000
-app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`server is running on port ${process.env.PORT}`);
 });
 
 
