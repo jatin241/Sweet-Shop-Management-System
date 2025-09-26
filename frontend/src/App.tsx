@@ -95,14 +95,6 @@ function HomeHero() {
   );
 }
 
-function StatBlock({ value, label }: { value: string, label: string }) {
-  return (
-    <div className="text-center mx-4">
-          <div className="text-4xl font-extrabold text-[var(--accent)] mb-1">{value}</div>      <div className="text-sm font-medium text-gray-400">{label}</div>
-    </div>
-  );
-}
-
 function InfoCard({ icon, title, desc }: { icon: string, title: string, desc: string }) {
   // Refactored InfoCard for dark, professional style
     return (
@@ -125,7 +117,7 @@ function SweetCard({ sweet }: { sweet: Sweet }) {
     if (quantity <= 0) return toast.error("Out of stock!");
     setLoading(true);
     try {
-      await purchaseSweet(sweet._id, 1);
+      await purchaseSweet(sweet._id!, 1);
       setQuantity((q) => q - 1);
       toast.success(`Purchased 1 ${sweet.name}!`);
     } catch (e) {
