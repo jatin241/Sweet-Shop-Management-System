@@ -6,10 +6,7 @@ const cors = require('cors');
 const authRoute=require("./routes/app");
 const sweetsRoute = require("./routes/sweets")
 const app=express();
-app.use(cors({
-    origin: ['http://localhost:5173','https://sweet-shop-management-system-3b69.vercel.app'],
-    credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth",authRoute);

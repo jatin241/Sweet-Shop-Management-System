@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://sweet-shop-management-system-v0jh.onrender.com/api/$1"
+    }
+  ]
+}
