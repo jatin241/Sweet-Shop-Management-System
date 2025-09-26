@@ -189,25 +189,28 @@ function MenuGrid() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    // Mocking a fetch to show the loading/error state
-    // In a real app, you might want a better loading UI
-    fetchSweets()
-      .then(setSweets)
-      .catch(() => setError("Failed to load sweets."))
-      .finally(() => setLoading(false));
-  }, []);
+	useEffect(() => {
+		fetchSweets()
+			.then((data) => {
+				// Debug: log all sweet names to help with image mapping
+				console.log('Sweet names from API:', data.map((s: Sweet) => s.name));
+				setSweets(data);
+			})
+			.catch(() => setError("Failed to load sweets."))
+			.finally(() => setLoading(false));
+	}, []);
 
   if (loading) return <div className="text-center text-purple-400 mt-16 text-xl">Loading delicious sweets...</div>;
   if (error) return <div className="text-center text-red-400 mt-16 text-xl">{error}</div>;
 
 	// Map sweet names to public images
-	const sweetImages: Record<string, string> = {
-		'Gulab Jamun': '/Gulab Jamun.jpg',
-		'Rasmalai': '/Rasmalai.jpg',
-		'ChamCham': '/ChamCham.jpeg',
-		// Add more mappings as needed
-	};
+		const sweetImages: Record<string, string> = {
+			'Gulab Jamun': '/GulabJamun.jpg',
+			'GulabJamun': '/GulabJamun.jpg',
+			'Rasmalai': '/Rasmalai.jpg',
+			'ChamCham': '/ChamCham.jpeg',
+			// Add more mappings as needed
+		};
 
 	return (
 		<div className="w-full max-w-6xl mx-auto py-16 px-4">
