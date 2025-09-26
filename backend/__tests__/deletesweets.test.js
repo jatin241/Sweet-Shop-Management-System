@@ -6,27 +6,31 @@ const Sweet = require('../models/sweetModel');
 let sweetId, token;
 
 beforeAll(async () => {
-  const mongoUri = process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/userRegistration';
+  const mongoUri = process.env.MONGO_URL || process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/userRegistration';
   await mongoose.connect(mongoUri);
 
-  // Create a sweet to delete
-  const sweet = await Sweet.create({
-    name: 'DeleteMe',
-    category: 'Test',
-    price: 50,
-    quantity: 5
-  });
-  sweetId = sweet._id;
+  // Clean up users and sweets collections before test (must be first)
+  const User = require('../models/userModel');
+  await User.deleteMany({});
+  await Sweet.deleteMany({});
 
-  // Register and login to get token
+  // Ensure admin user exists before tests
   const email = 'admin@test.com';
   const password = 'password';
-  // Register user
   await request(app).post('/api/auth/register').send({ email, password, isAdmin: true });
   // Force admin privilege in DB
   await mongoose.model('User').updateOne({ email }, { isAdmin: true });
   const loginRes = await request(app).post('/api/auth/login').send({ email, password });
   token = loginRes.body.token;
+
+  // Create a sweet to delete with a unique name
+  const sweet = await Sweet.create({
+    name: `DeleteMe_${Date.now()}`,
+    category: 'Test',
+    price: 50,
+    quantity: 5
+  });
+  sweetId = sweet._id;
 });
 
 afterAll(async () => {

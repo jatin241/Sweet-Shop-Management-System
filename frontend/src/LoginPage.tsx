@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
       const redirectTo = (location.state as any)?.from?.pathname || "/";
       navigate(redirectTo, { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.msg || "Login failed");
     } finally {
       setLoading(false);
     }

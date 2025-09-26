@@ -47,16 +47,20 @@ function generateRefreshToken(user) {
 
 async function login(req, res) {
     try {
+        console.log('Login request body:', req.body);
         const { email, password } = req.body;
         if (!email || !password) {
+            console.log('Missing email or password');
             return res.status(404).json({ msg: "missing email or password" })
         }
         const user = await User.findOne({ email })
         if (!user) {
+            console.log('User not found for email:', email);
             return res.status(404).json({ msg: "user not found" });
         }
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
+            console.log('Password did not match for user:', email);
             return res.status(404).json({ msg: "password did not match" })
         }
         const token = generateToken(user);
@@ -68,7 +72,7 @@ async function login(req, res) {
         });
     } catch (err) {
         console.log("login err", err);
-        res.status(500).json({ msg: "server error" })
+        res.status(500).json({ msg: "server error", error: err.message })
     }
 }
 

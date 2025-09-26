@@ -7,8 +7,16 @@ let token;
 let sweetId;
 
 beforeAll(async () => {
-    const mongoUri = process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/userRegistrationTest';
+    const mongoUri = process.env.MONGO_URL || process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/userRegistrationTest';
     await mongoose.connect(mongoUri);
+    // Clean up users and sweets collections before test (must be first)
+    const User = require('../models/userModel');
+    await User.deleteMany({});
+    await Sweet.deleteMany({});
+    // Ensure admin user exists before tests
+    await request(app)
+        .post('/api/auth/register')
+        .send({ email: 'admin@test.com', password: 'password', isAdmin: true });
     // Register and login a user to get a token
     const userData = {
         email: `testuser_${Date.now()}@example.com`,
@@ -23,12 +31,12 @@ beforeAll(async () => {
     token = loginRes.body.token;
     // Add a sweet for updating
     const sweet = await Sweet.create({
-    name: `Barfi_${Date.now()}`,
-    category: 'Milk',
-    price: 100,
-    quantity: 10
-});
-sweetId = sweet._id;
+        name: `Barfi_${Date.now()}`,
+        category: 'Milk',
+        price: 100,
+        quantity: 10
+    });
+    sweetId = sweet._id;
 }, 20000);
 
 afterAll(async () => {

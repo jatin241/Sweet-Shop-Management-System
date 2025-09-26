@@ -7,24 +7,29 @@ let sweetId;
 let token;
 
 beforeAll(async () => {
-  const mongoUri = process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/sweetsTest';
+  const mongoUri = process.env.MONGO_URL || process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/sweetsTest';
   await mongoose.connect(mongoUri);
 
-  // Create a sweet to restock
-  const sweet = await Sweet.create({
-    name: 'Barfi',
-    category: 'Gram',
-    price: 100,
-    quantity: 10
-  });
-  sweetId = sweet._id;
+  // Clean up users and sweets collections before test (must be first)
+  const User = require('../models/userModel');
+  await User.deleteMany({});
+  await Sweet.deleteMany({});
 
-  // Register and login to get token
+  // Ensure admin user exists before tests
   const email = 'admin@test.com';
   const password = 'password';
   await request(app).post('/api/auth/register').send({ email, password, isAdmin: true });
   const loginRes = await request(app).post('/api/auth/login').send({ email, password });
   token = loginRes.body.token;
+
+  // Create a sweet to restock
+  const sweet = await Sweet.create({
+    name: `Barfi_${Date.now()}`,
+    category: 'Gram',
+    price: 100,
+    quantity: 10
+  });
+  sweetId = sweet._id;
 });
 
 afterAll(async () => {

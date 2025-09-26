@@ -1,8 +1,12 @@
 {
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://sweet-shop-management-system-v0jh.onrender.com/api/$1"
-    }
+      {
+        "source": "/api/(.*)",
+        "destination": "https://sweet-shop-management-system-production.up.railway.app/api/$1"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/"
+      }
   ]
 }

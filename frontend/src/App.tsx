@@ -292,28 +292,28 @@ function MenuGrid() {
 
   // Map sweet names to public images
   const sweetImages: Record<string, string> = {
-    'Gulab Jamun': '/GulabJamun.jpg',
+    'Gulab Jamun': 'https://falasteenifoodie.com/wp-content/uploads/2024/11/DSC02391.jpg',
     'Rasmalai': '/Rasmalai.jpg',
     'ChamCham': '/ChamCham.jpeg',
     // Add more mappings as needed
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-16 px-4">
-      <h2 className="text-4xl font-extrabold text-center text-white mb-12">Our Sweet Selection</h2>
+    <div className="w-full max-w-6xl mx-auto py-16 px-4 bg-gradient-to-br from-[var(--background)] via-[var(--muted)] to-[var(--background)] rounded-3xl shadow-2xl">
+      <h2 className="text-4xl font-extrabold text-center text-[var(--primary)] mb-12">Our Sweet Selection</h2>
       {/* Admin Add Sweet Form */}
       {isAdmin && (
         <motion.form 
           onSubmit={handleAddSweet} 
-          className="flex flex-wrap gap-4 text-black mb-8 items-end bg-gradient-to-br from-[var(--muted)] via-[var(--background)] to-[var(--muted)] p-4 rounded-2xl shadow-lg border border-[var(--sidebar-border)]"
+          className="flex flex-wrap gap-4 text-black mb-8 items-end bg-white/80 p-4 rounded-2xl shadow-lg border border-[var(--sidebar-border)]"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <input required value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 text-black rounded-lg bg-transparent border border-gray-600  w-40 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
-          <input required value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600  w-32 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
-          <input required value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600  w-24 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
-          <input required value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded-lg bg-transparent border border-gray-600 w-20 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="px-3 py-2 text-black rounded-lg bg-white border border-gray-300  w-40 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.category} onChange={e => setAddForm(f => ({ ...f, category: e.target.value }))} placeholder="Category" className="px-3 py-2 rounded-lg bg-white border border-gray-300  w-32 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.price} onChange={e => setAddForm(f => ({ ...f, price: e.target.value }))} placeholder="Price" type="number" min="0" className="px-3 py-2 rounded-lg bg-white border border-gray-300  w-24 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <input required value={addForm.quantity} onChange={e => setAddForm(f => ({ ...f, quantity: e.target.value }))} placeholder="Qty" type="number" min="0" className="px-3 py-2 rounded-lg bg-white border border-gray-300 w-20 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
           <button type="submit" disabled={addLoading} className="px-5 py-2.5 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white font-bold rounded-full shadow-lg text-sm hover:from-[var(--primary)] hover:to-[var(--accent)] transition disabled:opacity-50">
             {addLoading ? "Adding..." : "Add Sweet"}
           </button>
@@ -326,12 +326,12 @@ function MenuGrid() {
           placeholder="Search sweets..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-64"
+          className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-64"
         />
         <select
           value={category}
           onChange={e => setCategory(e.target.value)}
-          className="px-4 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-56"
+          className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-56"
         >
           <option value="">All Types</option>
           {allCategories.map(cat => (
