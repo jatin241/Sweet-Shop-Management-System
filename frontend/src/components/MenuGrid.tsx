@@ -1,4 +1,4 @@
-import gulabJamunImg from '../images/GulabJamun.jpg';
+
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
@@ -114,7 +114,7 @@ const MenuGrid: React.FC = () => {
   });
 
   const sweetImages: Record<string, string> = {
-      'Gulab Jamun': gulabJamunImg,
+      'Gulab Jamun':'/GulabJamun',
     'Rasmalai': '/Rasmalai.jpg',
     'ChamCham': '/ChamCham.jpeg',
     'Peda': '/pexels-mccutcheon-1191639.jpg',

@@ -103,7 +103,7 @@
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.40);
 }
 
-@theme inline {
+ inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

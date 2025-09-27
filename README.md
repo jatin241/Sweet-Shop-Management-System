@@ -74,5 +74,5 @@ Using AI tools like Copilot significantly improved my productivity by reducing b
 
 
 ## Public Repository
-This project is available at: [Live Demo](https://sweet-shop-management-system-3b69.vercel.app/)
+This project is available at: [Live Demo](https://sweet-shop-management-system-3b69.vercel.app/dashboard)
 
