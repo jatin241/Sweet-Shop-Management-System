@@ -30,7 +30,7 @@ Sweet Shop Management System is a full-stack web application that allows custome
 3. Create a `.env` file with the following variables:
 	```env
 	MONGO_URL=your_mongodb_connection_string
-	PORT=5000
+	PORT=3000
 	JWT_SECRET=your_jwt_secret
 	```
 4. Start the backend server:
