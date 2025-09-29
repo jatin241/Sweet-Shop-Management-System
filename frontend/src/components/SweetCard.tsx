@@ -16,6 +16,7 @@ type Sweet = {
 const SweetCard: React.FC<{ sweet: Sweet }> = ({ sweet }) => {
   const [quantity, setQuantity] = useState(sweet.quantity ?? 0);
   const [loading, setLoading] = useState(false);
+  const defaultImg = '/public/pexels-mccutcheon-1191639.jpg';
 
   async function handlePurchase() {
     if (quantity <= 0) return toast.error("Out of stock!");
@@ -42,7 +43,7 @@ const SweetCard: React.FC<{ sweet: Sweet }> = ({ sweet }) => {
       <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[oklch(from var(--primary) l c h / 20%)] to-[oklch(from var(--accent) l c h / 20%)] opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none"></div>
       <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-4">
         <img
-          src={sweet.img}
+          src={sweet.img && sweet.img.trim() !== '' ? sweet.img : defaultImg}
           alt={sweet.name}
           className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
         />

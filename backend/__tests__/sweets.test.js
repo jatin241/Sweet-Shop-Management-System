@@ -7,7 +7,7 @@ let token;
 
 beforeAll(async () => {
     // Connect to test database
-    const mongoUri = process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/userRegistrationTest';
+    const mongoUri = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/userRegistrationTest';
     await mongoose.connect(mongoUri);
 
     // Register a user
